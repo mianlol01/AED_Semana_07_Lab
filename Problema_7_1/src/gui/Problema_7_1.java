@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Problema_7_1 extends JFrame implements ActionListener {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -40,10 +41,11 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					Problema_7_1 frame = new Problema_7_1();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -70,7 +72,7 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		txtEdad.setBounds(66, 10, 86, 23);
 		contentPane.add(txtEdad);
 		txtEdad.setColumns(10);
-		
+
 		btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(this);
 		btnAdicionar.setBounds(230, 40, 291, 23);
@@ -85,7 +87,7 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		btnEliminarTodo.addActionListener(this);
 		btnEliminarTodo.setBounds(230, 100, 291, 23);
 		contentPane.add(btnEliminarTodo);
-		
+
 		btnRemplazarPrimeraEdadAdolescente = new JButton("Remplazar primera edad adolescente");
 		btnRemplazarPrimeraEdadAdolescente.addActionListener(this);
 		btnRemplazarPrimeraEdadAdolescente.setBounds(230, 130, 291, 23);
@@ -95,12 +97,12 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		btnIntercambiarEdadesAdolescentesExtremas.addActionListener(this);
 		btnIntercambiarEdadesAdolescentesExtremas.setBounds(230, 160, 291, 23);
 		contentPane.add(btnIntercambiarEdadesAdolescentesExtremas);
-	
+
 		btnEliminarPrimeraEdadAdolescente = new JButton("Eliminar primera edad adolescente");
 		btnEliminarPrimeraEdadAdolescente.addActionListener(this);
 		btnEliminarPrimeraEdadAdolescente.setBounds(230, 190, 291, 23);
 		contentPane.add(btnEliminarPrimeraEdadAdolescente);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 40, 210, 412);
 		contentPane.add(scrollPane);
@@ -109,7 +111,7 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		txtS.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		scrollPane.setViewportView(txtS);
 	}
-	
+
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnEliminarPrimeraEdadAdolescente) {
 			actionPerformedBtnEliminarPrimeraEdadAdolescente(arg0);
@@ -132,66 +134,90 @@ public class Problema_7_1 extends JFrame implements ActionListener {
 		limpieza();
 	}
 
-	//  DeclaraciÛn global
+	// Declaraci√≥n global
 	ArregloEdades ae = new ArregloEdades();
-	
+
 	protected void actionPerformedBtnAdicionar(ActionEvent arg0) {
 		try {
 			ae.adicionar(leerEdad());
 			listar();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			mensaje("error de ingreso");
-		}	
+		}
 	}
+
 	protected void actionPerformedBtnEliminarAlFinal(ActionEvent arg0) {
 		if (ae.tamanio() > 0) {
 			ae.eliminarAlFinal();
 			listar();
-		}
-		else
-			mensaje("el Arreglo est· vacÌo");		
+		} else
+			mensaje("el Arreglo est√° vac√≠o");
 	}
+
 	protected void actionPerformedBtnEliminarTodo(ActionEvent arg0) {
 		if (ae.tamanio() > 0) {
 			ae.eliminarTodo();
 			listar();
-		}
-		else
-			mensaje("el Arreglo est· vacÌo");			
+		} else
+			mensaje("el Arreglo est√° vac√≠o");
 	}
+
 	protected void actionPerformedBtnRemplazarPrimeraEdadAdolescente(ActionEvent arg0) {
-		
+		if (ae.tamanio() > 0) {
+			ae.remplazarPrimeraEdadAdolescente();
+			listar();
+		} else {
+			mensaje("el Arreglo est√° vac√≠o");
+		}
 	}
+
 	protected void actionPerformedBtnIntercambiarEdadesAdolescentesExtremas(ActionEvent arg0) {
-		
+		if (ae.tamanio() > 0) {
+			ae.intercambiarEdadesAdolescentesExtremas();
+			;
+			listar();
+		} else {
+			mensaje("el Arreglo est√° vac√≠o");
+		}
 	}
+
 	protected void actionPerformedBtnEliminarPrimeraEdadAdolescente(ActionEvent arg0) {
-		
+		if (ae.tamanio() > 0) {
+			ae.eliminarPrimeraEdadAdolescente();
+			listar();
+		} else {
+			mensaje("el Arreglo est√° vac√≠o");
+		}
 	}
-	//  MÈtodos tipo void (sin par·metros)
+
+	// M√©todos tipo void (sin par√°metros)
 	void imprimir() {
 		imprimir("");
 	}
+
 	void limpieza() {
 		txtEdad.setText("");
 		txtEdad.requestFocus();
 	}
+
 	void listar() {
 		txtS.setText("");
-		for (int i=0; i<ae.tamanio(); i++)
+		for (int i = 0; i < ae.tamanio(); i++)
 			imprimir("edad[" + i + "] : " + ae.obtener(i));
 	}
-	//  MÈtodos tipo void (con par·metros)
+
+	// M√©todos tipo void (con par√°metros)
 	void imprimir(String s) {
 		txtS.append(s + "\n");
 	}
+
 	void mensaje(String s) {
 		JOptionPane.showMessageDialog(this, s);
 	}
-	//  MÈtodos que retornan valor (sin par·metros)
-	int leerEdad()  {
+
+	// M√©todos que retornan valor (sin par√°metros)
+	int leerEdad() {
 		return Integer.parseInt(txtEdad.getText().trim());
 	}
-	
+
 }
