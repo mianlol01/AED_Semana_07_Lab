@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Problema_7_2 extends JFrame implements ActionListener {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -39,10 +40,11 @@ public class Problema_7_2 extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					Problema_7_2 frame = new Problema_7_2();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -79,7 +81,7 @@ public class Problema_7_2 extends JFrame implements ActionListener {
 		btnEliminarAlFinal.addActionListener(this);
 		btnEliminarAlFinal.setBounds(300, 70, 245, 23);
 		contentPane.add(btnEliminarAlFinal);
-		
+
 		btnEliminarTodo = new JButton("Eliminar todo");
 		btnEliminarTodo.addActionListener(this);
 		btnEliminarTodo.setBounds(300, 100, 245, 23);
@@ -94,7 +96,7 @@ public class Problema_7_2 extends JFrame implements ActionListener {
 		btnEliminarPrimeraNotaAprobatoria.addActionListener(this);
 		btnEliminarPrimeraNotaAprobatoria.setBounds(300, 160, 245, 23);
 		contentPane.add(btnEliminarPrimeraNotaAprobatoria);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 40, 280, 412);
 		contentPane.add(scrollPane);
@@ -104,9 +106,9 @@ public class Problema_7_2 extends JFrame implements ActionListener {
 		scrollPane.setViewportView(txtS);
 	}
 
-	//  Declaraciòn global
+	// Declaraciï¿½n global
 	ArregloNotas an = new ArregloNotas();
-	
+
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnEliminarPrimeraNotaAprobatoria) {
 			actionPerformedBtnEliminarPrimeraNotaAprobatoria(arg0);
@@ -125,60 +127,79 @@ public class Problema_7_2 extends JFrame implements ActionListener {
 		}
 		limpieza();
 	}
+
 	protected void actionPerformedBtnAdicionar(ActionEvent arg0) {
 		try {
 			an.adicionar(leerNota());
 			listar();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			mensaje("error de ingreso");
 		}
 	}
+
 	protected void actionPerformedBtnEliminarAlFinal(ActionEvent arg0) {
 		if (an.tamanio() > 0) {
 			an.eliminarAlFinal();
 			listar();
-		}
-		else
-			mensaje("el Arreglo está vacío");		
+		} else
+			mensaje("el Arreglo estï¿½ vacï¿½o");
 	}
+
 	protected void actionPerformedBtnEliminarTodo(ActionEvent arg0) {
 		if (an.tamanio() > 0) {
 			an.eliminarTodo();
 			listar();
-		}
-		else
-			mensaje("el Arreglo está vacío");	
+		} else
+			mensaje("el Arreglo estï¿½ vacï¿½o");
 	}
+
 	protected void actionPerformedBtnRemplazarUltimaNotaAaprobatoria(ActionEvent arg0) {
-	
+		if (an.tamanio() > 0) {
+			an.remplazarUltimaNotaAprobatoria();
+			listar();
+		} else {
+			mensaje("el Arreglo estÃ¡ vacÃ­o");
+		}
+
 	}
+
 	protected void actionPerformedBtnEliminarPrimeraNotaAprobatoria(ActionEvent arg0) {
-	
+		if (an.tamanio() > 0) {
+			an.eliminarPrimeraNotaAprobatoria();
+			listar();
+		} else {
+			mensaje("el Arreglo estÃ¡ vacÃ­o");
+		}
 	}
-	//  Métodos tipo void (sin parámetros)
+
+	// Mï¿½todos tipo void (sin parï¿½metros)
 	void imprimir() {
 		imprimir("");
 	}
+
 	void limpieza() {
 		txtNota.setText("");
 		txtNota.requestFocus();
 	}
+
 	void listar() {
 		txtS.setText("");
-		for (int i=0; i<an.tamanio(); i++)
+		for (int i = 0; i < an.tamanio(); i++)
 			imprimir("nota[" + i + "] : " + an.obtener(i));
 	}
-	//  Métodos tipo void (con parámetros)
+
+	// Mï¿½todos tipo void (con parï¿½metros)
 	void imprimir(String s) {
 		txtS.append(s + "\n");
 	}
+
 	void mensaje(String s) {
 		JOptionPane.showMessageDialog(this, s);
 	}
-	//  Métodos que retornan valor (sin parámetros)
-	int leerNota()  {
+
+	// Mï¿½todos que retornan valor (sin parï¿½metros)
+	int leerNota() {
 		return Integer.parseInt(txtNota.getText().trim());
 	}
-	
+
 }
