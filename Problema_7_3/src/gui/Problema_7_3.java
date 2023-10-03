@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Problema_7_3 extends JFrame implements ActionListener {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -40,10 +41,11 @@ public class Problema_7_3 extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					Problema_7_3 frame = new Problema_7_3();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -70,7 +72,7 @@ public class Problema_7_3 extends JFrame implements ActionListener {
 		txtTemperatura.setBounds(95, 10, 86, 23);
 		contentPane.add(txtTemperatura);
 		txtTemperatura.setColumns(10);
-		
+
 		btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(this);
 		btnAdicionar.setBounds(290, 40, 260, 23);
@@ -85,22 +87,22 @@ public class Problema_7_3 extends JFrame implements ActionListener {
 		btnEliminarTodo.addActionListener(this);
 		btnEliminarTodo.setBounds(290, 100, 260, 23);
 		contentPane.add(btnEliminarTodo);
-		
+
 		btnRemplazarPrimeraTemperaturaFebril = new JButton("Remplazar primera temperatura febril");
 		btnRemplazarPrimeraTemperaturaFebril.addActionListener(this);
 		btnRemplazarPrimeraTemperaturaFebril.setBounds(290, 130, 260, 23);
 		contentPane.add(btnRemplazarPrimeraTemperaturaFebril);
-		
-		btnRemplazarUltimaTemperaturaFebril = new JButton("Remplazar última temperatura febril");
+
+		btnRemplazarUltimaTemperaturaFebril = new JButton("Remplazar ï¿½ltima temperatura febril");
 		btnRemplazarUltimaTemperaturaFebril.addActionListener(this);
 		btnRemplazarUltimaTemperaturaFebril.setBounds(290, 160, 260, 23);
 		contentPane.add(btnRemplazarUltimaTemperaturaFebril);
-		
+
 		btnEliminarPrimeraTemperaturaFebril = new JButton("Eliminar primera temperatura febril");
 		btnEliminarPrimeraTemperaturaFebril.addActionListener(this);
 		btnEliminarPrimeraTemperaturaFebril.setBounds(290, 190, 260, 23);
 		contentPane.add(btnEliminarPrimeraTemperaturaFebril);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 40, 275, 412);
 		contentPane.add(scrollPane);
@@ -132,66 +134,90 @@ public class Problema_7_3 extends JFrame implements ActionListener {
 		limpieza();
 	}
 
-	//  Declaraciòn global
+	// Declaraciï¿½n global
 	ArregloTemperaturas at = new ArregloTemperaturas();
-	
+
 	protected void actionPerformedBtnAdicionar(ActionEvent arg0) {
 		try {
 			at.adicionar(leerTemperatura());
 			listar();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			mensaje("error de ingreso");
 		}
 	}
+
 	protected void actionPerformedBtnEliminarAlFinal(ActionEvent arg0) {
 		if (at.tamanio() > 0) {
 			at.eliminarAlFinal();
 			listar();
-		}
-		else
-			mensaje("el Arreglo está vacío");	
+		} else
+			mensaje("el Arreglo estï¿½ vacï¿½o");
 	}
+
 	protected void actionPerformedBtnEliminarTodo(ActionEvent arg0) {
 		if (at.tamanio() > 0) {
 			at.eliminarTodo();
 			listar();
-		}
-		else
-			mensaje("el Arreglo está vacío");	
+		} else
+			mensaje("el Arreglo estï¿½ vacï¿½o");
 	}
+
 	protected void actionPerformedBtnRemplazarPrimeraTemperaturaFebril(ActionEvent arg0) {
+		if (at.tamanio() > 0) {
+			at.remplazarPrimeraTemperaturaFebril();
+			listar();
+		} else {
+			mensaje("el Arreglo estÃ¡ vacÃ­o");
+		}
 
 	}
+
 	protected void actionPerformedBtnRemplazarUltimaTemperaturaFebril(ActionEvent arg0) {
-	
+		if (at.tamanio() > 0) {
+			at.remplazarUltimaTemperaturaFebril();
+			listar();
+		} else {
+			mensaje("el Arreglo estÃ¡ vacÃ­o");
+		}
 	}
+
 	protected void actionPerformedBtnEliminarPrimeraTemperaturaFebril(ActionEvent arg0) {
-		
+		if (at.tamanio() > 0) {
+			at.eliminarPrimeraTemperaturaFebril();
+			listar();
+		} else {
+			mensaje("el Arreglo estÃ¡ vacÃ­o");
+		}
 	}
-	//  Métodos tipo void (sin parámetros)
+
+	// Mï¿½todos tipo void (sin parï¿½metros)
 	void imprimir() {
 		imprimir("");
 	}
+
 	void limpieza() {
 		txtTemperatura.setText("");
 		txtTemperatura.requestFocus();
 	}
+
 	void listar() {
 		txtS.setText("");
-		for (int i=0; i<at.tamanio(); i++)
+		for (int i = 0; i < at.tamanio(); i++)
 			imprimir("temperatura[" + i + "] : " + at.obtener(i));
 	}
-	//  Métodos tipo void (con parámetros)
+
+	// Mï¿½todos tipo void (con parï¿½metros)
 	void imprimir(String s) {
 		txtS.append(s + "\n");
 	}
+
 	void mensaje(String s) {
 		JOptionPane.showMessageDialog(this, s);
 	}
-	//  Métodos que retornan valor (sin parámetros)
-	double leerTemperatura()  {
+
+	// Mï¿½todos que retornan valor (sin parï¿½metros)
+	double leerTemperatura() {
 		return Double.parseDouble(txtTemperatura.getText().trim());
 	}
-	
+
 }
