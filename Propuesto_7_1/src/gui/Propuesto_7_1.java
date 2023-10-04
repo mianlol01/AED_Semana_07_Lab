@@ -1,5 +1,7 @@
 package gui;
 
+import semana_07.ArregloCodigos;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,9 +16,10 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Propuesto_7_1 extends JFrame implements ActionListener {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -37,10 +40,11 @@ public class Propuesto_7_1 extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					Propuesto_7_1 frame = new Propuesto_7_1();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -59,7 +63,7 @@ public class Propuesto_7_1 extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblCodigo = new JLabel("C�digo");
+		lblCodigo = new JLabel("C�digo");
 		lblCodigo.setBounds(10, 10, 46, 23);
 		contentPane.add(lblCodigo);
 
@@ -67,7 +71,7 @@ public class Propuesto_7_1 extends JFrame implements ActionListener {
 		txtCodigo.setBounds(66, 10, 86, 23);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
-		
+
 		btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(this);
 		btnAdicionar.setBounds(400, 40, 121, 23);
@@ -82,7 +86,7 @@ public class Propuesto_7_1 extends JFrame implements ActionListener {
 		btnEliminar1.addActionListener(this);
 		btnEliminar1.setBounds(400, 100, 121, 23);
 		contentPane.add(btnEliminar1);
-		
+
 		btnIntercambiar2 = new JButton("Intercambiar 2");
 		btnIntercambiar2.addActionListener(this);
 		btnIntercambiar2.setBounds(400, 130, 121, 23);
@@ -121,42 +125,80 @@ public class Propuesto_7_1 extends JFrame implements ActionListener {
 		limpieza();
 	}
 
+	ArregloCodigos ac = new ArregloCodigos();
+
 	protected void actionPerformedBtnAdicionar(ActionEvent arg0) {
-		
+		try {
+			ac.adicionar(leerCodigo());
+			listar();
+		} catch (Exception e) {
+			mensaje("error de ingreso");
+		}
 	}
+
 	protected void actionPerformedBtnIntercambiar1(ActionEvent arg0) {
-		
+		if (ac.tamanio() > 0) {
+			ac.intercambiarSegPen();
+			listar();
+		} else {
+			mensaje("el Arreglo está vacío");
+		}
 	}
+
 	protected void actionPerformedBtnEliminar1(ActionEvent arg0) {
-		
+		if (ac.tamanio() > 0) {
+			ac.eliminarPrimero();
+			listar();
+		} else {
+			mensaje("el Arreglo está vacío");
+		}
 	}
+
 	protected void actionPerformedBtnIntercambiar2(ActionEvent arg0) {
-		
+		if (ac.tamanio() > 0) {
+			ac.intercambiarCodigo();
+			listar();
+		} else {
+			mensaje("el Arreglo está vacío");
+		}
 	}
+
 	protected void actionPerformedBtnEliminar2(ActionEvent arg0) {
-		
+		if (ac.tamanio() > 0) {
+			ac.eliminarCodigo();
+			listar();
+		} else {
+			mensaje("el Arreglo está vacío");
+		}
 	}
-	//  M�todos tipo void (sin par�metros)
+
+	// M�todos tipo void (sin par�metros)
 	void imprimir() {
 		imprimir("");
 	}
+
 	void limpieza() {
 		txtCodigo.setText("");
 		txtCodigo.requestFocus();
 	}
-	void listar() {
 
+	void listar() {
+		txtS.setText("");
+		for (int i = 0; i < ac.tamanio(); i++)
+			imprimir("código[" + i + "] : " + ac.obtener(i));
 	}
-	//  M�todos tipo void (con par�metros)
+
+	// M�todos tipo void (con par�metros)
 	void imprimir(String s) {
 		txtS.append(s + "\n");
 	}
+
 	void mensaje(String s) {
 		JOptionPane.showMessageDialog(this, s);
 	}
-	//  M�todos que retornan valor (sin par�metros)
-	int leerCodigo()  {
+
+	// M�todos que retornan valor (sin par�metros)
+	int leerCodigo() {
 		return Integer.parseInt(txtCodigo.getText().trim());
 	}
-	
 }
